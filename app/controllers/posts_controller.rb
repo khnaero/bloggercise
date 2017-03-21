@@ -11,6 +11,10 @@ class PostsController < ApplicationController
     @post = Post.new
   end
 
+  def edit
+    @post = Post.find(params[:id])
+  end
+
   def create
     @post = Post.new(post_params)
     
@@ -20,6 +24,23 @@ class PostsController < ApplicationController
       # render instead of redirect so that if it doesn't save, the text will still be there
       render 'new'
     end
+  end
+
+  def update
+    @post = Post.find(params[:id])
+
+    if @post.update(post_params)
+      redirect_to @post
+    else
+      render 'edit'
+    end
+  end
+
+  def destroy
+    @post = Post.find(params[:id])
+    @post.destroy
+
+    redirect_to root_path
   end
 
   private
